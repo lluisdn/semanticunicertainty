@@ -84,9 +84,12 @@ for sample_id, sample in enumerate(data):
         dataset['semantic_variability'].append(has_semantically_different_answers)
 
         results = rouge.compute(predictions=answer_list_1, references=answer_list_2)
-        dataset['rouge1'].append(results['rouge1'].mid.fmeasure)
-        dataset['rouge2'].append(results['rouge2'].mid.fmeasure)
-        dataset['rougeL'].append(results['rougeL'].mid.fmeasure)
+        #dataset['rouge1'].append(results['rouge1'].mid.fmeasure) --> OLD
+        #dataset['rouge2'].append(results['rouge2'].mid.fmeasure) --> OLD
+        #dataset['rougeL'].append(results['rougeL'].mid.fmeasure) --> OLD
+        dataset['rouge1'].append(results['rouge1'])
+        dataset['rouge2'].append(results['rouge2'])
+        dataset['rougeL'].append(results['rougeL'])
 
 dataset_df = pd.DataFrame.from_dict(dataset)
 
