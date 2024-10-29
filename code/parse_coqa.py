@@ -1,5 +1,5 @@
 import json
-
+import os
 import evaluate
 import pandas as pd
 import torch
@@ -84,9 +84,6 @@ for sample_id, sample in enumerate(data):
         dataset['semantic_variability'].append(has_semantically_different_answers)
 
         results = rouge.compute(predictions=answer_list_1, references=answer_list_2)
-        #dataset['rouge1'].append(results['rouge1'].mid.fmeasure) --> OLD
-        #dataset['rouge2'].append(results['rouge2'].mid.fmeasure) --> OLD
-        #dataset['rougeL'].append(results['rougeL'].mid.fmeasure) --> OLD
         dataset['rouge1'].append(results['rouge1'])
         dataset['rouge2'].append(results['rouge2'])
         dataset['rougeL'].append(results['rougeL'])
@@ -95,4 +92,8 @@ dataset_df = pd.DataFrame.from_dict(dataset)
 
 dataset = Dataset.from_pandas(dataset_df)
 
-dataset.save_to_disk(f'{config.data_dir}/coqa_dataset')
+output_dir = f'{config.data_dir}/coqa_dataset'
+if not os.path.exists(output_dir):
+    os.makedirs(output_dir)
+
+dataset.save_to_disk(output_dir)
